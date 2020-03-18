@@ -7,14 +7,14 @@ import { Repository } from 'typeorm';
 describe('CustomersService', () => {
   let customerService: CustomersService;
   let customerRepo: Repository<CustomerEntity>;
-  
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         CustomersService,
         {
           provide: getRepositoryToken(CustomerEntity),
-          useValue: Repository,
+          useClass: Repository,
         },
       ],
     }).compile();
@@ -33,7 +33,6 @@ describe('CustomersService', () => {
       firstName: 'Katerine',
       lastName: 'Pyrton'
     };
-    // customerRepo.find
     jest.spyOn(customerRepo, 'find').mockResolvedValueOnce([mockedCustomer]);
     expect(await customerService.findAll()).toEqual([mockedCustomer]);
   });
