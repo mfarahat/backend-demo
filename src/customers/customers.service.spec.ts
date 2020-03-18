@@ -36,4 +36,15 @@ describe('CustomersService', () => {
     jest.spyOn(customerRepo, 'find').mockResolvedValueOnce([mockedCustomer]);
     expect(await customerService.findAll()).toEqual([mockedCustomer]);
   });
+
+  it('should return one customer info', async () => {
+    const customerId = 1;
+    const mockedCustomer: CustomerEntity = {
+      id: 1,
+      firstName: 'Katerine',
+      lastName: 'Pyrton'
+    };
+    jest.spyOn(customerRepo, 'findOneOrFail').mockResolvedValueOnce(mockedCustomer);
+    expect(await customerService.findOne(customerId)).toEqual(mockedCustomer);
+  });
 });

@@ -14,4 +14,8 @@ export class CustomersService {
     async findAll(): Promise<CustomerEntity[]> {
         return await this.customerRepo.find();
     }
+
+    async findOne(id: number): Promise<CustomerEntity> {
+        return await this.customerRepo.findOneOrFail(id);
+    }
 }
