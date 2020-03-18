@@ -14,8 +14,8 @@ import { PurchasesModule } from './purchases/purchases.module';
       username: 'root',
       password: '',
       database: 'demo',
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true
+      synchronize: true,
+      autoLoadEntities: true
     }),
     CustomersModule,
     PurchasesModule
