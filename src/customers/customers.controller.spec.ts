@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { CustomersController } from './customers.controller';
 import { CustomersService } from './customers.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { CustomerEntity } from './customer.entity';
+import { Customer } from './customer.entity';
 import { Repository } from 'typeorm';
 
 describe('Customers Controller', () => {
@@ -15,7 +15,7 @@ describe('Customers Controller', () => {
       providers: [
         CustomersService,
         {
-          provide: getRepositoryToken(CustomerEntity),
+          provide: getRepositoryToken(Customer),
           useClass: Repository,
         }]
     }).compile();
@@ -29,7 +29,7 @@ describe('Customers Controller', () => {
   });
 
   it('should return all customers', async () => {
-    const mockedCustomers: CustomerEntity[] = [{
+    const mockedCustomers: Customer[] = [{
       id: 1,
       firstName: "Katerine",
       lastName: "Pyrton",
@@ -44,7 +44,7 @@ describe('Customers Controller', () => {
   });
 
   it('should return one customer', async () => {
-    const mockedCustomer: CustomerEntity = {
+    const mockedCustomer: Customer = {
       id: 1,
       firstName: "Katerine",
       lastName: "Pyrton",
