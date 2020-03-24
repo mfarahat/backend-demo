@@ -22,14 +22,13 @@ export class CustomersService {
 
   async findAllWithPurchases() {
     return this.customerRepo.createQueryBuilder("customer")
-      .select(["customer.id", "customer.firstName", "customer.lastName"])
-      .addSelect("COUNT(purchase.id)", "purchasesCount")
+      .select("customer.id", "id")
+      .addSelect("customer.firstName", "firstName")
+      .addSelect("customer.lastName", "lastName")
       .addSelect("SUM(purchase.value)", "purchasesTotalValue")
+      .addSelect("COUNT(purchase.id)", "purchasesCount")
       .leftJoin("customer.purchases", "purchase")
-      .groupBy("customer.id");
-    // SELECT customer.id, `customer`.`firstName`, `customer`.`lastName`, count(purchase.id) as purchasesCount, SUM(purchase.value) as purchasesTotalValue
-    // FROM `customer`
-    // LEFT OUTER JOIN `purchase` ON `customer`.`id` = `purchase`.`customer_id`
-    // GROUP BY customer.id
+      .groupBy("customer.id")
+      .getRawMany();
   }
 }
