@@ -20,7 +20,7 @@ export class CustomersService {
     return this.customerRepo.findOneOrFail(id);
   }
 
-  async findAllWithPurchases() {
+  async findAllWithPurchases(): Promise<CustomerPurchases[]> {
     return this.customerRepo.createQueryBuilder("customer")
       .select("customer.id", "id")
       .addSelect("customer.firstName", "firstName")

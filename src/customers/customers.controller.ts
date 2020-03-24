@@ -1,6 +1,7 @@
 import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
 import { Customer } from './customer.entity';
 import { CustomersService } from './customers.service';
+import { CustomerPurchases } from './interfaces/customer-total-purchases.interface';
 
 @Controller('customers')
 export class CustomersController {
@@ -12,7 +13,7 @@ export class CustomersController {
     }
 
     @Get('purchases')
-    findAllWPurchases() {
+    findAllWPurchases(): Promise<CustomerPurchases[]> {
         return this.customerService.findAllWithPurchases();
     }
 
