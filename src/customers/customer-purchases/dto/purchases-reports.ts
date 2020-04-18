@@ -1,11 +1,7 @@
-export class PurchaseDto {
-    value: number;
-    date: Date;
-    points?: number;
-}
+import { PurchaseInfo } from "../interfaces/purchase-info.interface";
 
-export class GroupedPurchasesReport {
-    purchases: Array<PurchaseDto> = [];
+export class GroupedPurchasesReportDto {
+    purchases: Array<PurchaseInfo> = [];
     totalPoints: number = 0;
     totalValue: number = 0;
 }

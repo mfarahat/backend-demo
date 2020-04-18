@@ -2,10 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { DateLimitsDto } from './dto/date-limits';
 import { PurchaseChartRepository } from './purchase-chart.repository';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PurchaseDto, GroupedPurchasesReport } from './dto/purchases-reports';
+import { GroupedPurchasesReportDto } from './dto/purchases-reports';
 import { Purchase } from './../../purchases/purchase.entity';
 import { Repository, Between } from 'typeorm';
 import { PointsCalculator } from './points-calculator';
+import { PurchaseInfo } from './interfaces/purchase-info.interface';
 
 @Injectable()
 export class CustomerPurchasesService {
@@ -21,8 +22,8 @@ export class CustomerPurchasesService {
         return this.purchaseChartRepository.findDateLimits(customerId);
     }
 
-    async getPurchaseData(customerId: number, start: Date, end: Date): Promise<GroupedPurchasesReport> {
-        let purchaseData: Array<PurchaseDto> = await this.purchaseRepo.find({
+    async getPurchaseData(customerId: number, start: Date, end: Date): Promise<GroupedPurchasesReportDto> {
+        let purchaseData: Array<PurchaseInfo> = await this.purchaseRepo.find({
             select: ["value", "date"],
             where: { customer: customerId, date: Between(start, end) },
             order: {

@@ -1,13 +1,14 @@
-import { PurchaseDto, GroupedPurchasesReport } from "./dto/purchases-reports";
+import { GroupedPurchasesReportDto } from "./dto/purchases-reports";
 import * as moment from 'moment';
+import { PurchaseInfo } from "./interfaces/purchase-info.interface";
 
 type RewardRule = { min?: number, pointValue: number };
 
 export class PointsCalculator {
     constructor(private rewardRules: Array<RewardRule>) { }
 
-    getPurchasesReport(purchaseData: PurchaseDto[]): GroupedPurchasesReport {
-        const groupedPurchasesReport: GroupedPurchasesReport = new GroupedPurchasesReport();
+    getPurchasesReport(purchaseData: PurchaseInfo[]): GroupedPurchasesReportDto {
+        const groupedPurchasesReport: GroupedPurchasesReportDto = new GroupedPurchasesReportDto();
         for (const purchase of purchaseData) {
             purchase.points = this.getPoints(purchase.value);
             this.groupPurchases(purchase, groupedPurchasesReport.purchases);
@@ -17,8 +18,8 @@ export class PointsCalculator {
         return groupedPurchasesReport;
     }
 
-    groupPurchases(purchase: PurchaseDto, groupedPurchasesArr: PurchaseDto[]) {
-        let lastAddedGroupedPurchases: PurchaseDto = groupedPurchasesArr[groupedPurchasesArr.length - 1];
+    groupPurchases(purchase: PurchaseInfo, groupedPurchasesArr: PurchaseInfo[]) {
+        let lastAddedGroupedPurchases: PurchaseInfo = groupedPurchasesArr[groupedPurchasesArr.length - 1];
         const modifiedDate: Date = moment(purchase.date).set('date', 15).toDate();
         if (lastAddedGroupedPurchases &&
             lastAddedGroupedPurchases.date.getMonth() === purchase.date.getMonth()) {
@@ -37,8 +38,8 @@ export class PointsCalculator {
         }
     }
 
-    fillTimeGap(previousDate: Date, currentDate: Date): PurchaseDto[] {
-        const fillerArr: Array<PurchaseDto> = [];
+    fillTimeGap(previousDate: Date, currentDate: Date): PurchaseInfo[] {
+        const fillerArr: Array<PurchaseInfo> = [];
         let indexDate: Date = previousDate;
         const diff:number = this.getMonthsDiff(currentDate, previousDate);
         while ( this.getMonthsDiff(currentDate, indexDate)> 1) {
@@ -47,7 +48,7 @@ export class PointsCalculator {
         }
         return fillerArr;
     }
-    
+
     getMonthsDiff(currentDate: Date, previousDate: Date): number {
         return moment([currentDate.getFullYear(), currentDate.getMonth()])
             .diff([previousDate.getFullYear(), previousDate.getMonth()], 'month');

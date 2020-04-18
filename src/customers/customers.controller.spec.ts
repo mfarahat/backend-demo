@@ -33,10 +33,12 @@ describe('Customers Controller', () => {
       id: 1,
       firstName: "Katerine",
       lastName: "Pyrton",
+      purchases: []
     }, {
       id: 2,
       firstName: "Lucilia",
       lastName: "Strasse",
+      purchases: []
     }];
 
     jest.spyOn(customerService, 'findAll').mockResolvedValueOnce(mockedCustomers);
@@ -48,6 +50,7 @@ describe('Customers Controller', () => {
       id: 1,
       firstName: "Katerine",
       lastName: "Pyrton",
+      purchases: []
     };
 
     jest.spyOn(customerService, 'findOne').mockResolvedValueOnce(mockedCustomer);
