@@ -4,6 +4,8 @@ import { CustomersService } from './customers.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Customer } from './customer.entity';
 import { Repository } from 'typeorm';
+import { CustomersPurchasesRepository } from './customers-purchases.repository';
+import { CustomerPurchases } from './interfaces/customer-total-purchases.interface';
 
 describe('Customers Controller', () => {
   let customerController: CustomersController;
@@ -16,6 +18,10 @@ describe('Customers Controller', () => {
         CustomersService,
         {
           provide: getRepositoryToken(Customer),
+          useClass: Repository,
+        },
+        {
+          provide: getRepositoryToken(CustomersPurchasesRepository),
           useClass: Repository,
         }]
     }).compile();
@@ -43,6 +49,25 @@ describe('Customers Controller', () => {
 
     jest.spyOn(customerService, 'findAll').mockResolvedValueOnce(mockedCustomers);
     expect(await customerController.findAll()).toEqual(mockedCustomers);
+  });
+
+  it('should return all customers with their purchases', async () => {
+    const mockedCustomersPurchases: CustomerPurchases[] = [{
+      id: 1,
+      firstName: "Katerine",
+      lastName: "Pyrton",
+      purchasesCount: 10,
+      purchasesTotalValue: 10
+    }, {
+      id: 2,
+      firstName: "Lucilia",
+      lastName: "Strasse",
+      purchasesCount: 10,
+      purchasesTotalValue: 10
+    }];
+
+    jest.spyOn(customerService, 'findAllWithPurchases').mockResolvedValueOnce(mockedCustomersPurchases);
+    expect(await customerController.findAllWPurchases()).toEqual(mockedCustomersPurchases);
   });
 
   it('should return one customer', async () => {
