@@ -41,7 +41,6 @@ export class PointsCalculator {
     fillTimeGap(previousDate: Date, currentDate: Date): PurchaseInfo[] {
         const fillerArr: Array<PurchaseInfo> = [];
         let indexDate: Date = previousDate;
-        const diff:number = this.getMonthsDiff(currentDate, previousDate);
         while ( this.getMonthsDiff(currentDate, indexDate)> 1) {
             indexDate = moment(indexDate).add(1, 'month').toDate();
             fillerArr.push({ date: indexDate, value: 0, points: 0 });

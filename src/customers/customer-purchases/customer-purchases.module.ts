@@ -2,12 +2,10 @@ import { Module } from '@nestjs/common';
 import { CustomerPurchasesService } from './customer-purchases.service';
 import { CustomerPurchasesController } from './customer-purchases.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Customer } from '../customer.entity';
-import { Purchase } from '../../purchases/purchase.entity';
-import { PurchaseChartRepository } from './purchase-chart.repository';
+import { CustomerPurchasesRepository } from './customer-purchases.repository';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Customer, Purchase, PurchaseChartRepository])],
+    imports: [TypeOrmModule.forFeature([CustomerPurchasesRepository])],
     providers: [CustomerPurchasesService],
     controllers: [CustomerPurchasesController]
 })
